@@ -48,13 +48,17 @@ async def get_amount(request: Request) -> Response:
 
 @routes.post('/amount/set')
 async def set_amount(request: Request) -> Response:
-    request.app[AppField.DATA].from_dict(await request.json())
-    logger.debug(request.app[AppField.DATA])
+    req = await request.json()
+    request.app[AppField.DATA].from_dict(req)
+    logger.debug(f'POST /amount/set {req}')
+    logger.debug(f'response: {request.app[AppField.DATA]}')
     return web.json_response({'message': 'ok'})
 
 
 @routes.post('/modify')
 async def modify_data(request: Request) -> Response:
-    request.app[AppField.DATA] += await request.json()
-    logger.debug(request.app[AppField.DATA])
+    req = await request.json()
+    request.app[AppField.DATA] += req
+    logger.debug(f'POST /modify {req}')
+    logger.debug(f'response: {request.app[AppField.DATA]}')
     return web.json_response({'message': 'ok'})
